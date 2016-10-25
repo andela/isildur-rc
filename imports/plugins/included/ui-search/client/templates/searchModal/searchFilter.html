@@ -1,11 +1,20 @@
 <template name="sortByRange">
   <div class="sorts" id="sortByRange">
+<<<<<<< HEAD
       <strong style="color: black ">Sort Product By:&nbsp;</strong>
+=======
+    <div class="shift-right">
+      <strong style="color: white ">Sort Product By:&nbsp;</strong>
+>>>>>>> do not use revisions if the package is disabled (#1527)
       <select id="sort-value">
           <option value="null"><strong>Price Range</strong></option>
           <option value="ASC"><strong>Lowest price</strong></option>
           <option value="DESC"><strong>Highest price</strong></option>
       </select>
+<<<<<<< HEAD
+=======
+    </div>
+>>>>>>> do not use revisions if the package is disabled (#1527)
   </div>
 </template>
 
@@ -13,6 +22,7 @@
 	<div class="hidden" id="searchFilter">
 		<div class="container customContainer">
 			<div class="row">
+<<<<<<< HEAD
 
 				<div class="col-md-4">
 					<label class="transform">Price</label>
@@ -29,14 +39,35 @@
               <option value="10000-100000">₦10000 - ₦100000</option>
               <option value="100000-1000000">₦100000 - ₦1000000</option>
               <option value="100000-10000000000">₦100000 - above</option>
+=======
+				<div class="col-md-6">
+					<label class="transform">Price</label>
+					<div class="rui select">
+						<select id="price-filter">
+              <option value="null" selected disabled>Filter by price</option>
+              <option value="all">All prices</option>
+              <option value="0-10">below - ₦10</option>
+              <option id="ten" value="10-55">₦10 - ₦55</option>
+              <option value="55-100">₦55 - ₦100</option>
+              <option value="100-500">₦100 - ₦500</option>
+              <option value="500-1000">₦500 - ₦1000</option>
+              <option value="1000-above">₦1000 - above</option>
+>>>>>>> do not use revisions if the package is disabled (#1527)
             </select>
 					</div>
 				</div>
 
+<<<<<<< HEAD
 				<div class="col-md-4">
 					<label class="transform">Vendor</label>
 					<div class="rui select">
 						<select id="filter-by-brand">
+=======
+				<div class="col-md-6">
+					<label class="transform">Vendor</label>
+					<div class="rui select">
+						<select id="brand-filter">
+>>>>>>> do not use revisions if the package is disabled (#1527)
               <option value="null" selected disabled>Filter by vendor</option>
               <option value="all">All vendors</option>
               <option id="vendor-mac" value="Example Manufacturer">Example Manufacturer</option>
@@ -45,6 +76,7 @@
               {{/each}}
             </select>
 					</div>
+<<<<<<< HEAD
         </div>
 
         <div class="col-md-4">
@@ -59,6 +91,9 @@
           </div>
         </div>
         
+=======
+				</div>
+>>>>>>> do not use revisions if the package is disabled (#1527)
 			</div>
 		</div>
 	</div>

@@ -8,6 +8,10 @@ import "./templates/searchModal/searchResults.html";
 import "./templates/searchModal/searchFilter.html";
 import "./templates/searchModal/searchFilter.js";
 
+// Filter Modal
+import "./templates/searchModal/searchFilter.html";
+import "./templates/searchModal/searchFilter.js";
+
 // Product Search
 import "./templates/productSearch/productResults.html";
 import "./templates/productSearch/productResults.js";
