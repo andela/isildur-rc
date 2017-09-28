@@ -1,7 +1,7 @@
 import { FlatButton } from "/imports/plugins/core/ui/client/components";
 import { Reaction } from "/client/api";
 import { Tags } from "/lib/collections";
-import takeTour from "/imports/plugins/included/getting-started-tour/client/tour";
+import takeTour, { vendorReminder } from "/imports/plugins/included/getting-started-tour/client/tour";
 
 Template.CoreNavigationBar.onCreated(function () {
   this.state = new ReactiveDict();
