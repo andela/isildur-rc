@@ -1,6 +1,5 @@
 import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
-<<<<<<< HEAD
 import _ from "underscore";
 
 Template.sortByRange.events({
@@ -8,7 +7,11 @@ Template.sortByRange.events({
     Session.set("productSortValue", event.target.value);
   }
 });
-
+Template.sortByVendor.events({
+  "change #sort-vendor": function (event) {
+    Session.set("vendorSortValue", event.target.value);
+  }
+});
 Template.searchFilter.events({
   "change #filter-by-price": function (event) {
     Session.set("filterPrice", event.target.value);
@@ -27,12 +30,5 @@ Template.searchFilter.helpers({
 Template.searchFilter.events({
   "change #filter-by-latest": function (event) {
     Session.set("filterLatest", event.target.value);
-=======
-// import _ from "underscore";
-
-Template.sortByRange.events({
-  "change #sort-value": function (event) {
-    Session.set("sortValue", event.target.value);
->>>>>>> do not use revisions if the package is disabled (#1527)
   }
 });
