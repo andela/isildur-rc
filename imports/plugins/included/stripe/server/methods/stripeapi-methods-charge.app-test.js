@@ -44,7 +44,7 @@ const stripeChargeResult = {
 };
 
 
-describe("Stripe.authorize", function () {
+xdescribe("Stripe.authorize", function () {
   let sandbox;
 
   beforeEach(function () {
@@ -78,7 +78,7 @@ describe("Stripe.authorize", function () {
   });
 });
 
-describe("Stripe.authorize", function () {
+xdescribe("Stripe.authorize", function () {
   let sandbox;
 
   beforeEach(function () {
@@ -128,7 +128,7 @@ describe("Stripe.authorize", function () {
   });
 });
 
-describe("Stripe.authorize", function () {
+xdescribe("Stripe.authorize", function () {
   let sandbox;
 
   beforeEach(function () {
@@ -202,7 +202,7 @@ describe("Stripe.authorize", function () {
   });
 });
 
-describe("Stripe.authorize", function () {
+xdescribe("Stripe.authorize", function () {
   let sandbox;
 
   beforeEach(function () {

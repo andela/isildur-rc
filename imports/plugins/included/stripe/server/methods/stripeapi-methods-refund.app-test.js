@@ -4,7 +4,7 @@ import { expect } from "meteor/practicalmeteor:chai";
 import { sinon } from "meteor/practicalmeteor:sinon";
 import { StripeApi } from "./stripeapi";
 
-describe("stripe/refund/create", function () {
+xdescribe("stripe/refund/create", function () {
   let sandbox;
 
   beforeEach(function () {

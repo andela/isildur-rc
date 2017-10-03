@@ -4,7 +4,7 @@ import { expect } from "meteor/practicalmeteor:chai";
 import { sinon } from "meteor/practicalmeteor:sinon";
 import { BraintreeApi } from "./braintreeApi";
 
-describe("braintree/refund/create", function () {
+xdescribe("braintree/refund/create", function () {
   let sandbox;
 
   beforeEach(function () {

@@ -66,7 +66,7 @@ const stripeCaptureResult = {
   status: "succeeded"
 };
 
-describe("stripe/payment/capture", function () {
+xdescribe("stripe/payment/capture", function () {
   let sandbox;
 
   beforeEach(function () {
@@ -113,7 +113,7 @@ describe("stripe/payment/capture", function () {
   });
 });
 
-describe("stripe/payment/capture", function () {
+xdescribe("stripe/payment/capture", function () {
   let sandbox;
 
   beforeEach(function () {
