@@ -1,8 +1,8 @@
 
 <template name="productSearchTags">
-
   {{#if tagSearchResults}}
   <div class="rui search-modal-tags-container">
+    {{>sortByRange}}
     <p class="rui suggested-tags" data-i18n="search.suggestedTags">Suggested tags</p>
     <div class="rui search-tags">
       {{#each tag in tagSearchResults}}
