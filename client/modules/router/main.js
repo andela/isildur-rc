@@ -182,6 +182,16 @@ Router.initPackageRoutes = () => {
       }
     });
 
+    // add route for static pages
+    Router.route("/pages/:slug", {
+      action(params) {
+        ReactionLayout({
+          template: "staticPageDisplay",
+          slug: params.slug
+        });
+      }
+    });
+
     // get package registry route configurations
     for (const pkg of pkgs) {
       const newRoutes = [];

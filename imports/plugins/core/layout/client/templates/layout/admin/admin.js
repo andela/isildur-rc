@@ -2,8 +2,9 @@ import Drop from "tether-drop";
 import { Meteor } from "meteor/meteor";
 import { Blaze } from "meteor/blaze";
 import { Template } from "meteor/templating";
-import { Reaction, i18next } from "/client/api";
+import { Reaction, i18next, Router } from "/client/api";
 import { Packages } from "/lib/collections";
+import { FlatButton } from "/imports/plugins/core/ui/client/components";
 
 
 Template.coreAdminLayout.onRendered(function () {
@@ -141,6 +142,19 @@ Template.coreAdminLayout.helpers({
       return settingsData;
     }
     return reactionApp;
+  },
+
+  StaticPageManagementButton() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      icon: "fa fa-pencil",
+      tooltip: "Page Management",
+      className: "static-page-trigger",
+      onClick() {
+        Router.go("/pages");
+      }
+    };
   }
 });
 

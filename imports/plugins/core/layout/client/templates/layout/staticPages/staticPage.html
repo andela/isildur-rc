@@ -1,0 +1,68 @@
+<template name="staticPageDisplay">
+  <!-- Edit page template -->
+  <div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Page</h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <form class="create-page-form">
+              <div class="form-group col-sm-6 col-xs-12">
+                <label for="page-title"></label>
+                {{#each page in pages slug}}
+                <input type="text" class="form-control" id="page-title" value="{{page.title}}">
+                {{/each}}
+              </div>
+              <div class="form-group col-sm-6 col-xs-12">
+                <label for="page-slug"></label>
+                {{#each page in pages slug}}
+                <input type="text" class="form-control" id="page-slug" value="{{page.slug}}">
+                {{/each}}
+              </div>
+              <div class="form-group col-md-12 col-xs-12">
+                <textarea id="simplemde-edit"></textarea>
+              </div>
+              <div>
+                {{> React EditButtonComponent}}
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Edit page template ends -->
+  {{#each page in pages slug}}
+    <div class="container-fluid static-page-head">
+      <h3 class="static-page-title">{{page.title}}</h3>
+    </div>
+    <div class="admin-bar">
+      {{#if hasAdminAccess}}
+        <div class="admin-icons pull-right">
+          <div class="edit">
+            <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
+            <button class="btn btn-default edit-icon" data-toggle="modal" data-target="#editModal" type="button" kind="flat"><span class="rui btn-tooltip" style="display: inline-flex;"><div class="tooltip-target tooltip-element-attached-bottom tooltip-element-attached-center tooltip-target-attached-top tooltip-target-attached-center"><i class="rui font-icon fa fa-pencil-square-o"></i></div></span></button>
+          </div>
+          <div class="delete">
+            {{> React DeleteButtonComponent}}
+          </div>
+        </div>
+      {{/if}}
+    </div>
+    <div class="container static-page-body">
+      <div class="row">
+        <div class="col-sm-12 static-page-content">
+          {{{page.content}}}
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</template>

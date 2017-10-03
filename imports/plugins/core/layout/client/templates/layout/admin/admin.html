@@ -63,6 +63,10 @@
       {{/each}}
     </nav>
 
+    <nav class="admin-controls-quicklinks static-page">
+      {{> React StaticPageManagementButton}}
+    </nav>
+
     <nav class="admin-controls-actions">
       <!-- begin dashboardControls -->
       {{> Template.dynamic template=dashboardControls}}
@@ -72,6 +76,8 @@
         {{> button buttonProps}}
       {{/each}}
     </nav>
+
+    
 
   </div>
 

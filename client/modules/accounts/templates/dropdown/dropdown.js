@@ -1,5 +1,5 @@
 import { Reaction, Logger } from "/client/api";
-import { Tags } from "/lib/collections";
+import { Tags, StaticPages } from "/lib/collections";
 import { Session } from "meteor/session";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
@@ -67,5 +67,15 @@ Template.loginDropdown.events({
       Reaction.Router.go(route);
     }
     template.$(".dropdown-toggle").dropdown("toggle");
+  }
+});
+
+Template.staticPagesDropdown.onCreated(function () {
+  Meteor.subscribe("StaticPages");
+});
+
+Template.staticPagesDropdown.helpers({
+  staticPages() {
+    return StaticPages.find({shopId: Reaction.shopId}).fetch();
   }
 });
