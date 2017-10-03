@@ -10,6 +10,7 @@ import { localeDep } from  "/client/modules/i18n";
 import { Packages, Shops } from "/lib/collections";
 import { Router } from "/client/modules/router";
 
+const localeCurrencySymbols = require("../localeCurrencySymbols");
 /**
  * Reaction namespace
  * Global reaction shop permissions methods and shop initialization
@@ -52,14 +53,26 @@ export default {
                 locale.currency.rate = shop.currencies[localeCurrency].rate;
                 localeDep.changed();
               }
+            } else {
+              HTTP.call("GET", `https://openexchangerates.org/api/latest.json
+                ?app_id=884d3f7749d447ca832340b1e4ab01c3`,
+                (error, result) => {
+                  if (!error) {
+                    Session.set("twizzled", true);
+                    const localCurrency = locale.locale.currency;
+                    locale.currency.rate = result.data.rates[localCurrency];
+                    locale.currency.format = "%s%v";
+                    locale.currency.symbol = localeCurrencySymbols[localCurrency].symbol;
+                    // we are looking for a shopCurrency changes here
+                    if (typeof locale.shopCurrency === "object") {
+                      locale.shopCurrency = shop.currencies[shop.currency];
+                      localeDep.changed();
+                    }
+                    return this;
+                  }
+                });
             }
           }
-          // we are looking for a shopCurrency changes here
-          if (typeof locale.shopCurrency === "object") {
-            locale.shopCurrency = shop.currencies[shop.currency];
-            localeDep.changed();
-          }
-          return this;
         }
       }
     });

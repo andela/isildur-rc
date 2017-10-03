@@ -4,10 +4,32 @@ import { Tracker } from "meteor/tracker";
 import { SimpleSchema } from "meteor/aldeed:simple-schema";
 import { Reaction } from "/client/api";
 import { Packages, Translations } from "/lib/collections";
+import { Geolocation } from "meteor/mdg:geolocation";
+import { reverseGeocode } from "meteor/jaymc:google-reverse-geocode";
 
 //
 // Reaction i18n Translations, RTL and Currency Exchange Support
 //
+
+const latitudeLongitude = new ReactiveVar();
+const countrycode = new ReactiveVar();
+Tracker.autorun(function (computation) {
+  latitudeLongitude.set(Geolocation.latLng());
+  if (latitudeLongitude.get()) {
+    computation.stop();
+    const lat = latitudeLongitude.curValue.lat;
+    const lng = latitudeLongitude.curValue.lng;
+    reverseGeocode.getSecureLocation(lat, lng, function (location) {
+      if (location.results === undefined) {
+        countrycode.set("US");
+      } else {
+        countryDetailsLocation = location.results.length - 1;
+        countrycode.set(location.results[countryDetailsLocation].address_components[0].short_name);
+      }
+    });
+  }
+});
+
 
 /**
  * getBrowserLanguage
@@ -100,7 +122,7 @@ Meteor.startup(() => {
       }
 
       // use i18n detected language to getLocale info
-      Meteor.call("shop/getLocale", (error, result) => {
+      Meteor.call("shop/getLocale",  countrycode.get(), (error, result) => {
         if (result) {
           const locale = result;
           locale.language = getBrowserLanguage();

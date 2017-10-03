@@ -1,6 +1,7 @@
 import accounting from "accounting-js";
 import { Meteor } from "meteor/meteor";
 import { Template } from "meteor/templating";
+import { Tracker } from "meteor/tracker";
 import { localeDep, i18nextDep } from  "./main";
 import { Reaction, Logger, i18next } from "/client/api";
 
@@ -42,7 +43,7 @@ export function formatPriceString(formatPrice) {
       prices[i] *= locale.currency.rate;
 
       price = _formatPrice(price, originalPrice, prices[i],
-        currentPrice, locale.currency, i, len);
+        currentPrice, { format: locale.currency.format, symbol: locale.currency.symbol }, i, len);
     } catch (error) {
       Logger.debug("currency error, fallback to shop currency");
       price = _formatPrice(price, originalPrice, prices[i],

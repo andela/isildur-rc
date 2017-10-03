@@ -62,7 +62,8 @@ Meteor.methods({
    * determine local currency and conversion rate from shop currency
    * @return {Object} returns user location and locale
    */
-  "shop/getLocale": function () {
+  "shop/getLocale": function (countryCodeString) {
+    check(countryCodeString);
     this.unblock();
     let clientAddress;
     const geo = new GeoCoder();
@@ -103,7 +104,7 @@ Meteor.methods({
     const geoCountryCode = geo.geoip(clientAddress).country_code;
 
     // countryCode either from geo or defaults
-    const countryCode = (geoCountryCode || defaultCountryCode).toUpperCase();
+    const countryCode = (countryCodeString).toUpperCase();
 
     // get currency rates
     result.currency = {};
