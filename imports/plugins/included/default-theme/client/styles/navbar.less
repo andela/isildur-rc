@@ -215,7 +215,7 @@
   .left(auto);
 }
 
-.rui.navbar .search {
+.rui.navbar .search, .tour {
   .display(flex);
   .align-items(center);
   .flex(0 0 auto);
@@ -224,7 +224,18 @@
   cursor: pointer;
 }
 
-.rui.navbar .search:hover {
+.tour {
+  padding: 0px 35px;
+  @media screen and (max-width: @screen-xs-max) {
+    padding: 0px;
+  }
+}
+
+i.rui.font-icon.fa.fa-lightbulb-o {
+  margin-right: .5rem;
+}
+
+.rui.navbar .search:hover, .tour:hover {
   background-color: @navbar-default-toggle-icon-bar-bg;
   border-color: @navbar-default-toggle-border-color;
 }

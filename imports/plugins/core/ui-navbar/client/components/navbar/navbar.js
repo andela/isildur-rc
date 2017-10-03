@@ -1,9 +1,18 @@
 import { FlatButton } from "/imports/plugins/core/ui/client/components";
 import { Reaction } from "/client/api";
 import { Tags } from "/lib/collections";
+import takeTour from "/imports/plugins/included/getting-started-tour/client/tour";
 
 Template.CoreNavigationBar.onCreated(function () {
   this.state = new ReactiveDict();
+});
+
+Template.CoreNavigationBar.onRendered(function () {
+  this.autorun(() => {
+    if (!(localStorage.takenTour)) {
+      takeTour();
+    }
+  });
 });
 
 /**
@@ -69,6 +78,16 @@ Template.CoreNavigationBar.helpers({
       onToggleMenu(callback) {
         // Register the callback
         instance.toggleMenuCallback = callback;
+      }
+    };
+  },
+  TourButtonComponent() {
+    return {
+      component: FlatButton,
+      kind: "flat",
+      label: "Get Started",
+      onClick() {
+        takeTour();
       }
     };
   }
