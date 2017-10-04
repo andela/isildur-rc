@@ -1,4 +1,5 @@
 "use strict";
+require("dotenv").load();
 const yaml = require("js-yaml");
 const fs   = require("fs");
 const expect = require("chai").expect;
@@ -9,7 +10,7 @@ dotenv.config();
 
 beforeEach(function () {
   const browserConfig = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/config/settings.yml", "utf8"));
-  const baseUrl = browserConfig.base_url.toString();
+  const baseUrl = process.env.REACTION_BASE_URL || browserConfig.base_url.toString();
   browser.url(baseUrl);
   // browser.getSession().then(function (sessionid) {
   //   browser.sessionID = sessionid.id_;
