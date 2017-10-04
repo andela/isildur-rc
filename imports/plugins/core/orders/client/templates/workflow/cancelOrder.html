@@ -1,9 +1,9 @@
 <template name="coreOrderCancelOrder">
+  {{#if showCancelOrderForm}}
     <div aria-labelledby="coreOrderCancelOrder" class="panel panel-default" id="coreOrderCancelOrder-panel" role="tabpanel">
         <div class="panel-heading">
         <h3 class="panel-title">Cancel Order</h3>
         </div>
-        {{#if showCancelOrderForm}}
         <div class="panel-body">
           <form name="cancelOrderForm">
             <div class="form-group {{hasError messages.errors.comment}}">
@@ -32,6 +32,6 @@
             </div>
           </form>
         </div>
-        {{/if}}
     </div>
+  {{/if}}
 </template>
