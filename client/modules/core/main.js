@@ -54,8 +54,7 @@ export default {
                 localeDep.changed();
               }
             } else {
-              HTTP.call("GET", `https://openexchangerates.org/api/latest.json
-                ?app_id=884d3f7749d447ca832340b1e4ab01c3`,
+              HTTP.call("GET", "https://openexchangerates.org/api/latest.json?app_id=884d3f7749d447ca832340b1e4ab01c3",
                 (error, result) => {
                   if (!error) {
                     Session.set("twizzled", true);
@@ -70,6 +69,7 @@ export default {
                     }
                     return this;
                   }
+                  return error;
                 });
             }
           }

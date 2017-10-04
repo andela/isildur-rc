@@ -62,8 +62,8 @@ Meteor.methods({
    * determine local currency and conversion rate from shop currency
    * @return {Object} returns user location and locale
    */
-  "shop/getLocale": function (countryCodeString) {
-    check(countryCodeString);
+  "shop/getLocale": function (countryCodeString = "US") {
+    check(countryCodeString, String);
     this.unblock();
     let clientAddress;
     const geo = new GeoCoder();
@@ -101,7 +101,7 @@ Meteor.methods({
       }
     }
     // geocode reverse ip lookup
-    const geoCountryCode = geo.geoip(clientAddress).country_code;
+    // const geoCountryCode = geo.geoip(clientAddress).country_code;
 
     // countryCode either from geo or defaults
     const countryCode = (countryCodeString).toUpperCase();
@@ -213,7 +213,7 @@ Meteor.methods({
           "Open Exchange Rates AppId not configured. Configure for current rates.");
       } else {
         // shop open exchange rates appId
-        const openexchangeratesAppId = shopSettings.settings.openexchangerates.appId;
+        const openexchangeratesAppId = shopSettings.settings.openexchangerates.appId || "884d3f7749d447ca832340b1e4ab01c3";
 
         // we'll update all the available rates in Shops.currencies whenever we
         // get a rate request, using base currency
