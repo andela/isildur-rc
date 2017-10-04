@@ -850,5 +850,47 @@ Meteor.methods({
       throw new Meteor.Error(
         "Attempt to refund transaction failed", result.error);
     }
+  },
+
+  /**
+   * orders/cancelOrder
+   *
+   * @summary Cancel an order
+   * @param { Object } order - the order object
+   * @param { Object } userType - the type of user cancelling the order
+   * @param {Object} cancelComment - cancelled order comment object
+   * @returns { Object } - returns the updated object
+   */
+  "orders/cancelOrder": (order, userType, cancelComment) => {
+    check(order, Object);
+    check(userType, String);
+    check(cancelComment, Object);
+    // @todo if to check if the product is in shipping stage
+    if (userType === "buyer") {
+      return Orders.update(order._id, {
+        $set: {
+          "workflow.status": "canceled"
+        },
+        $addToSet: {
+          "workflow.workflow": "coreOrderWorkflow/canceled"
+        }
+      });
+    } else if (userType === "vendor") {
+      if (!Reaction.hasPermission("orders")) {
+        throw new Meteor.Error(403, "Access Denied");
+      }
+      return Orders.update(order._id, {
+        $set: {
+          "workflow.status": "canceled"
+        },
+        $push: {
+          comments: cancelComment
+        },
+        $addToSet: {
+          "workflow.workflow": "coreOrderWorkflow/canceled"
+        }
+      });
+    }
+    throw new Meteor.Error(402, "userType does not exist");
   }
 });
