@@ -879,6 +879,22 @@ Meteor.methods({
       if (!Reaction.hasPermission("orders")) {
         throw new Meteor.Error(403, "Access Denied");
       }
+      const options = {
+        to: order.email,
+        from: "isildurandela@gmail.com",
+        subject: "Canceled Order",
+        html: `<div><p>Hello,</p>
+        <p>Your order was canceled. Please find the details below</p>
+        <strong>
+        <p>Item Ordered: ${order.items[0].title}</p>
+        <p style="color: red;">Reason: ${cancelComment.body}</p>
+        <p>Thanks for shopping with us!</p>
+        <p>Isildur Reaction Commerce</p>
+        </strong>
+        </div>
+        `
+      };
+      Reaction.Email.send(options);
       return Orders.update(order._id, {
         $set: {
           "workflow.status": "canceled"
