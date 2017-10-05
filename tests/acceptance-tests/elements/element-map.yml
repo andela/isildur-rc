@@ -92,3 +92,14 @@ stripe_complete_order_btn: "//form[@id='stripe-payment-form']/button"
 
 # order confirmation page
 thank_you_txt: "h3 > span"
+
+# digital product
+skip_tour: "[class='introjs-button introjs-skipbutton']"
+open_create_product: "[class='rui font-icon fa fa-plus']"
+create_product: "[class='rui button btn btn-default undefined']"
+input_title: "[class='text-edit-input pdp product-detail-edit title-edit-input']"
+input_subtitle: "[class='text-edit-input pdp product-detail-edit pageTitle-edit-input']"
+input_description: "[class='{this.props.name}-edit-input']"
+select_product_type: "[class='form-control select-category']"
+select_digital: "[class='digital-category']"
+add_product_to_cart: "[class='input-group-addon add-to-cart-text js-add-to-cart']"

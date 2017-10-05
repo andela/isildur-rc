@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Template } from "meteor/templating";
-import { Orders, Shops } from "/lib/collections";
+import { Orders, Shops, Products } from "/lib/collections";
 
 /**
  * dashboardOrdersList helpers
@@ -37,5 +37,23 @@ Template.dashboardOrdersList.helpers({
   shopName() {
     const shop = Shops.findOne(this.shopId);
     return shop !== null ? shop.name : void 0;
+  },
+  isDigital() {
+    const productId = this.items[0].productId;
+    const sub = Meteor.subscribe("Product", productId);
+    if (sub.ready()) {
+      const product = Products.findOne(productId);
+      return product.isDigital;
+    }
+    return null;
+  },
+  downloadUrl() {
+    const productId = this.items[0].productId;
+    const sub = Meteor.subscribe("Product", productId);
+    if (sub.ready()) {
+      const product = Products.findOne(productId);
+      return product.downloadUrl;
+    }
+    return null;
   }
 });
