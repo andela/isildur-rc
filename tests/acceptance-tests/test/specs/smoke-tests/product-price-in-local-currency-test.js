@@ -17,6 +17,6 @@ describe("Display of Product prices", function () {
     // browser.waitForExist("#product-title", "5000");
     browser.waitForExist(".currency-symbol", "10000");
     browser.pause("10000");
-    expect(browser.getText(".currency-symbol")).to.contain("₦");
+    expect(browser.getText(".currency-symbol")).to.contain("₦4,624.44 - ₦7,116.44");
   });
 });
