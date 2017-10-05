@@ -61,6 +61,13 @@
           {{/with}}
         {{/each}}
       </div>
+      {{#if showCancelButton}}
+         {{#if hasPermission "account/profile"}}
+          {{#unless hasPermission "admin"}}
+            <button name="cancel-order" class="btn btn-block btn-danger" type="submit" data-event-action="cancelOrder" data-i18n="order.cancelOrder">Cancel Order</button>
+          {{/unless}}
+         {{/if}}
+      {{/if}}
     </div>
 
   </div>

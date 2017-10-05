@@ -89,7 +89,7 @@ Template.coreOrderCancelOrder.events({
     const order = state.get("order");
     const userType = "vendor";
     Alerts.alert({
-      title: "Are you sure you want to cancel this order.",
+      title: "Are you sure you want to cancel this order? This action can not be undone",
       showCancelButton: true,
       confirmButtonText: "Cancel Order"
     }, (isConfirm) => {

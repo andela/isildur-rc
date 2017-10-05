@@ -864,7 +864,7 @@ Meteor.methods({
   "orders/cancelOrder": (order, userType, cancelComment) => {
     check(order, Object);
     check(userType, String);
-    check(cancelComment, Object);
+    check(cancelComment, Match.Maybe(Object));
     // @todo if to check if the product is in shipping stage
     if (userType === "buyer") {
       return Orders.update(order._id, {

@@ -13,6 +13,9 @@ const orderFilters = [{
 }, {
   name: "completed",
   label: "Completed"
+}, {
+  name: "canceled",
+  label: "Canceled"
 }];
 
 const OrderHelper =  {
@@ -230,10 +233,8 @@ Template.orderListFilters.onCreated(function () {
       if (queryFilter) {
         filter.active = queryFilter === filter.name;
       }
-
       return filter;
     });
-
     this.state.set("filters", filters);
   });
 });
