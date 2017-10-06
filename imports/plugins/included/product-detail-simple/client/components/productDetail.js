@@ -154,8 +154,8 @@ class ProductDetail extends Component {
     if (this.props.hasAdminPermission && this.state.selectedProductOption === "digital") {
       return (
         <div>
-          <input className="btn btn-success" type="file" id="uploadFile" />
-          <button className="btn btn-success no-round" id="upload-btn" onClick={this.uploadHandler}>Upload Product</button>
+          <input className="btn btn-success fileInput" type="file" id="uploadFile" />
+          <button className="btn btn-success no-round uploadButton" id="upload-btn" onClick={this.uploadHandler}>Upload Product</button>
         </div>
       );
     }
