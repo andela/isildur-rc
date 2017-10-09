@@ -1,4 +1,4 @@
-import { Reaction } from "/client/api";
+import { Reaction, Router } from "/client/api";
 import { ReactionProduct } from "/lib/api";
 import { applyProductRevision } from "/lib/api/products";
 import { Products, Tags } from "/lib/collections";
@@ -145,6 +145,13 @@ Template.products.helpers({
     }
 
     return false;
+  },
+
+  currentRoute() {
+    const routeName = Router.getRouteName();
+    if (routeName === "index") {
+      return true;
+    }
   }
 });
 
