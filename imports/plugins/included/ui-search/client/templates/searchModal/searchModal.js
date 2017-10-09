@@ -3,7 +3,7 @@ import React from "react";
 import { DataType } from "react-taco-table";
 import { Template } from "meteor/templating";
 import { i18next } from "/client/api";
-import { ProductSearch, Tags, OrderSearch, AccountSearch } from "/lib/collections";
+import { ProductSearch, Tags, OrderSearch, AccountSearch, Products } from "/lib/collections";
 import { IconButton, SortableTable } from "/imports/plugins/core/ui/client/components";
 
 /*
@@ -80,6 +80,20 @@ Template.searchModal.onCreated(function () {
     });
   };
 
+  // sort vendor in ASC and DESC order
+  const sortVendor = (products, vendorQuery) => {
+    return products.sort((a, b) => {
+      if (vendorQuery === "ASC") {
+        if (a.vendor < b.vendor) return -1;
+        if (a.vendor > b.vendor) return 1;
+      } else if (vendorQuery === "DESC") {
+        if (a.vendor < b.vendor) return 1;
+        if (a.vendor > b.vendor) return -1;
+      }
+      return 0;
+    });
+  };
+
   // filter product by latest
   const filterProductByLatest = (products, latestQuery) => {
     if (latestQuery === "new") {
@@ -97,6 +111,7 @@ Template.searchModal.onCreated(function () {
     const priceQuery = Session.get("filterPrice");
     const brandQuery = Session.get("filterBrand");
     const productSortQuery = Session.get("productSortValue");
+    const vendorQuery = Session.get("vendorSortValue");
     const latestQuery = Session.get("filterLatest");
     const facets = this.state.get("facets") || [];
     const sub = this.subscribe("SearchResults", searchCollection, searchQuery, facets);
@@ -123,6 +138,10 @@ Template.searchModal.onCreated(function () {
         // sort product query
         if (productSortQuery !== "null" && productSortQuery) {
           productResults = sortProduct(productResults, productSortQuery);
+        }
+        // sort product by vendor is alphabetical order ASC || DESC
+        if (!["null", "all"].includes(vendorQuery) && vendorQuery) {
+          productResults = sortVendor(productResults, vendorQuery);
         }
         const productResultsCount = productResults.length;
         this.state.set("productSearchResults", productResults);
