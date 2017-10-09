@@ -2,8 +2,10 @@
 
   {{#if ready}}
 
-    {{#if currentRoute }}  
+    {{#if currentRoute }}
       {{>homeHero }}
+      {{else}}
+        {{>shopHero }}
     {{/if}}
 
     {{>productGrid products=products}}
@@ -87,6 +89,26 @@
         <a href="/reaction/tag/shop">
           <img src="/resources/rc5.jpg" class="center-block img-responsive" alt="Call to action">
         </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="shopHero">
+  <div class="container-fluid padding-none">
+    <div class="col-xs-12">
+      <img src="/resources/rc7.jpg" class="center-block img-responsive" alt="shop banner">
+    </div>
+  </div>
+  <div class="container margin-v">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xs-12">
+        <img src="/resources/rc4.jpg" class="center-block img-responsive" alt="Call to action">
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12">
+      <div class="col-xs-12">
+        <img src="/resources/rc5.jpg" class="center-block img-responsive" alt="Call to action">
       </div>
     </div>
   </div>
