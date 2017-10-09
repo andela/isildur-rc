@@ -82,11 +82,13 @@ Template.searchModal.onCreated(function () {
 
   // sort vendor in ASC and DESC order
   const sortVendor = (products, vendorQuery) => {
-    return products.sort(() => {
+    return products.sort((a, b) => {
       if (vendorQuery === "ASC") {
-        return 1;
+        if (a.vendor < b.vendor) return -1;
+        if (a.vendor > b.vendor) return 1;
       } else if (vendorQuery === "DESC") {
-        return -1;
+        if (a.vendor < b.vendor) return 1;
+        if (a.vendor > b.vendor) return -1;
       }
       return 0;
     });
