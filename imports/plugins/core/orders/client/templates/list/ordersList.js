@@ -1,6 +1,6 @@
 import moment from "moment";
 import { Template } from "meteor/templating";
-import { Orders, Shops } from "/lib/collections";
+import { Orders, Shops, Products } from "/lib/collections";
 
 /**
  * dashboardOrdersList helpers

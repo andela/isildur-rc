@@ -7,7 +7,11 @@ Template.sortByRange.events({
     Session.set("productSortValue", event.target.value);
   }
 });
-
+Template.sortByVendor.events({
+  "change #sort-vendor": function (event) {
+    Session.set("vendorSortValue", event.target.value);
+  }
+});
 Template.searchFilter.events({
   "change #filter-by-price": function (event) {
     Session.set("filterPrice", event.target.value);

@@ -9,6 +9,17 @@
   </div>
 </template>
 
+<template name="sortByVendor">
+  <div class="sorts" id="sortByVendor">
+      <strong style="color: black ">Order By Product Vendor:&nbsp;</strong>
+      <select id="sort-vendor">
+          <option value="null"><strong>All</strong></option>
+          <option value="ASC"><strong>A - Z</strong></option>
+          <option value="DESC"><strong>Z - A</strong></option>
+      </select>
+  </div>
+</template>
+
 <template name="searchFilter">
 	<div class="hidden" id="searchFilter">
 		<div class="container customContainer">
@@ -39,7 +50,6 @@
 						<select id="filter-by-brand">
               <option value="null" selected disabled>Filter by vendor</option>
               <option value="all">All vendors</option>
-              <option id="vendor-mac" value="Example Manufacturer">Example Manufacturer</option>
                {{#each brand in getBrands productSearchResults }}
               <option value="{{brand}}">{{brand}}</option>
               {{/each}}
@@ -51,7 +61,7 @@
           <label class="transform">Latest</label>
           <div class="rui select">
             <select id="filter-by-latest">
-              <option value="null" selected disabled>Filter by Latest</option>
+              <option value="null" selected disabled>Sort by Latest</option>
               <option value="all">All</option>
               <option value="new">New</option>
               <option value="old">Old</option>
