@@ -1,6 +1,11 @@
 <template name="productGrid">
   <div class="container-main">
     <div class="product-grid">
+      {{#if products}}
+        <div class="text-center">
+          <h3>Latest Products</h3>
+        </div>
+      {{/if}}
       <ul class="product-grid-list list-unstyled" id="product-grid-list">
         {{#each products}}
           {{> productGridItems}}
