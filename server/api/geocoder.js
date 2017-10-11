@@ -2,6 +2,7 @@ import { Packages } from "/lib/collections";
 import { Logger, Reaction } from "/server/api";
 import { HTTP } from "meteor/http";
 import { Meteor } from "meteor/meteor";
+import { Geolocation } from "meteor/mdg:geolocation";
 
 /**
  * meteor-geocoder
@@ -116,7 +117,7 @@ function gi(address, callback) {
     lookupAddress = "";
   }
   // calls a private reaction hosted version of freegeoip
-  HTTP.call("GET", `https://geo.getreaction.io/json/${lookupAddress}`, callback);
+  HTTP.call("GET", "https://timezoneapi.io/api/ip", callback);
 }
 
 GeoCoder.prototype.geoip = function geoCoderGeocode(address, callback) {

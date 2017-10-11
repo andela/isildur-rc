@@ -79,3 +79,16 @@ Template.staticPagesDropdown.helpers({
     return StaticPages.find({shopId: Reaction.shopId}).fetch();
   }
 });
+
+Template.accountsDropdownApps.onRendered(function () {
+  if (Reaction.hasAdminAccess()) {
+    // Display getting started for the admin or shop owner
+    $("#onboarding").removeClass("onboarding");
+  }
+});
+Template.accountsDropdownApps.events({
+  "click #dropdown-apps-onboarding": function (event) {
+    event.preventDefault();
+    Reaction.Router.go("/reaction/get-started");
+  }
+});
