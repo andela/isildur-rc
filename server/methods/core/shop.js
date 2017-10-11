@@ -13,17 +13,21 @@ Meteor.methods({
   /**
    * shop/createShop
    * @param {String} shopAdminUserId - optionally create shop for provided userId
+   * @param {Object} userData - signup data from the user signing up
+   * @param {String} type - the signup type
    * @param {Object} shopData - optionally provide shop object to customize
    * @return {String} return shopId
    */
-  "shop/createShop": function (shopAdminUserId, shopData) {
+  "shop/createShop": function (shopAdminUserId, userData, shopData) {
     check(shopAdminUserId, Match.Optional(String));
     check(shopData, Match.Optional(Schemas.Shop));
+    Logger.warn(userData);
+    check(userData, Match.Optional(Object));
     let shop = {};
     // must have owner access to create new shops
-    if (!Reaction.hasOwnerAccess()) {
-      throw new Meteor.Error(403, "Access Denied");
-    }
+    // if (!Reaction.hasOwnerAccess()) {
+    //   throw new Meteor.Error(403, "Access Denied");
+    // }
 
     // this.unblock();
     const count = Collections.Shops.find().count() || "";
@@ -34,18 +38,35 @@ Meteor.methods({
 
     check(shop, Schemas.Shop);
     if (!currentUser) {
+      Logger.info("user not logged in yet");
       throw new Meteor.Error("Unable to create shop with specified user");
     }
 
     // identify a shop admin
-    const userId = shopAdminUserId || Meteor.userId();
+    const userId = shopAdminUserId;
     const adminRoles = Roles.getRolesForUser(currentUser, Reaction.getShopId());
     // ensure unique id and shop name
     shop._id = Random.id();
-    shop.name = shop.name + count;
+    if (userData.type === "vendorSignup") {
+      shop.name = userData.shopName;
+      shop.emails.address = userData.email;
+      shop.emails.verified = false;
+    } else {
+      shop.name = shop.name + count;
+    }
+
+    // if (userData.type === "vendorSignup") {
+    //   shop.name = userData.name;
+    //   shop.email = userData.email;
+    //   shop.addressBook.company = userData.shopName;
+    //   shop.addressBook.address1 = userData.shopAddress;
+    //   shop.addressBook.address2 = null;
+    //   shop.addressBook.phone = userData.phone;
+    // }
 
     check(shop, Schemas.Shop);
     try {
+      // console.log(shop);
       Collections.Shops.insert(shop);
     } catch (error) {
       return Logger.error("Failed to shop/createShop", sanitizedError);

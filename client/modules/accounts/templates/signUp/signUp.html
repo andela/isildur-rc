@@ -26,6 +26,48 @@
       {{/if}}
     </div>
 
+    <!-- multivendor form starts -->
+    <div class="form-group">
+       {{> multiVendorCheckbox}}
+    </div>
+    <div class="form-group {{hasError messages.errors.username }}">
+      <label for="username">Username</label>
+      <input class="form-control" type="text" name="username" id="username">
+      {{#if hasError messages.errors.username}}
+        <span class="help-block">
+          <p>{{messages.errors.username}}</p>
+        </span>
+      {{/if}}
+    </div>
+    <div class="form-group {{hasError messages.errors.shopName }}">
+      <label for="shop-name">Shop Name</label>
+      <input class="form-control" type="text" name="shop-name" id="shop-name">
+      {{#if hasError messages.errors.shopName}}
+        <span class="help-block">
+          <p>{{messages.errors.shopName}}</p>
+        </span>
+      {{/if}}
+    </div>
+    <div class="form-group {{hasError messages.errors.shopAddress }}">
+      <label for="shop-address">Shop Address</label>
+      <input class="form-control" type="text" name="shop-address" id="shop-address">
+      {{#if hasError messages.errors.shopAddress}}
+        <span class="help-block">
+          <p>{{messages.errors.shopAddress}}</p>
+        </span>
+      {{/if}}
+    </div>
+    <div class="form-group {{hasError messages.errors.phone }}">
+      <label for="phone-number">Phone</label>
+      <input class="form-control" type="text" name="phone-number" id="phone-number">
+      {{#if hasError messages.errors.phone}}
+        <span class="help-block">
+          <p>{{messages.errors.phone}}</p>
+        </span>
+      {{/if}}
+    </div>
+    <!-- multivendor form ends -->
+
     <div class="form-group form-group-password {{hasError messages.errors.password }}">
       <label for="password-{{uniqueId}}" class="control-label" data-i18n="accountsUI.password">Password</label>
       <input id="password-{{uniqueId}}" class="form-control login-input-password" type="password" value="{{credentials.password}}">
@@ -48,4 +90,9 @@
 
   </form>
 
+</template>
+
+<template name="multiVendorCheckbox">
+  <input type="checkbox" name="vendor-registration" id="vendor-registration"/>
+  <label for="vendor-registration">Register as a vendor</label>
 </template>
