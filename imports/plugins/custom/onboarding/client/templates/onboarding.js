@@ -1,4 +1,5 @@
 import { Template } from "meteor/templating";
+import { Reaction } from "/client/api";
 
 Template.getStarted.events({
   "click #intro-next": function (event) {
@@ -55,5 +56,9 @@ Template.getStarted.events({
     event.preventDefault();
     const element = document.querySelector("#email-li");
     element.previousElementSibling.firstElementChild.click();
+  },
+  "click #product-next": function (event) {
+    event.preventDefault();
+    Reaction.Router.go("/reaction/dashboard");
   }
 });

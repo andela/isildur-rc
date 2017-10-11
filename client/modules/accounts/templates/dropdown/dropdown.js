@@ -82,10 +82,11 @@ Template.staticPagesDropdown.helpers({
 
 Template.accountsDropdownApps.onRendered(function () {
   if (Reaction.hasAdminAccess()) {
-    // Display getting started for the admin or shop owner
+    // Display onboarding
     $("#onboarding").removeClass("onboarding");
   }
 });
+
 Template.accountsDropdownApps.events({
   "click #dropdown-apps-onboarding": function (event) {
     event.preventDefault();
