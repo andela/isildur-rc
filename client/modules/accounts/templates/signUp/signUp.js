@@ -1,5 +1,6 @@
 import { LoginFormSharedHelpers } from "/client/modules/accounts/helpers";
 import { Template } from "meteor/templating";
+import { Shops } from "/lib/collections";
 
 
 /**
@@ -112,11 +113,18 @@ Template.loginFormSignUpView.events({
           "emails.address": newUserData.email
         })._id;
         // Close dropdown or navigate to page
-        // create shop and give the new user admin access
+        // create shop if signup is successful
         Meteor.call("shop/createShop", shopAdminUserId, newUserData, (shopError) => {
           if (shopError) {
             console.log(shopError);
           }
+            // console.log(Shops.findOne({ name: shopName}));
+            // console.log(shopId);
+            // const defaultAdminRoles = ["owner", "admin", "guest", "account/profile"];
+            // // if shop is created successfully, make the user ann admin
+            // Roles.setUserRoles(shopAdminUserId, _.uniq(defaultAdminRoles), shopId);
+            // // // the reaction owner has permissions to all sites by default
+            // Roles.setUserRoles(shopAdminUserId, _.uniq(defaultAdminRoles), Roles.GLOBAL_GROUP);
         });
       }
     });

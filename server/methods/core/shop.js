@@ -44,6 +44,7 @@ Meteor.methods({
     // identify a shop admin
     const userId = shopAdminUserId;
     const adminRoles = Roles.getRolesForUser(currentUser, Reaction.getShopId());
+    const defaultAdminRoles = ["owner", "admin", "guest", "account/profile"];
     // ensure unique id and shop name
     shop._id = Random.id();
     if (userData.type === "vendorSignup") {
@@ -67,7 +68,11 @@ Meteor.methods({
     }
     // we should have created new shop, or errored
     Logger.info("Created shop: ", shop._id);
-    Roles.addUsersToRoles([currentUser, userId], adminRoles, shop._id);
+    if (userData.type === "vendorSignup") {
+      Roles.addUsersToRoles([currentUser, userId], defaultAdminRoles, shop._id);
+    } else {
+      Roles.addUsersToRoles([currentUser, userId], adminRoles, shop._id);
+    }
     return shop._id;
   },
 
