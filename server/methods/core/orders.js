@@ -9,6 +9,13 @@ import { getSlug } from "/lib/api";
 import { Cart, Media, Orders, Products, Shops } from "/lib/collections";
 import * as Schemas from "/lib/collections/schemas";
 import { Logger, Reaction } from "/server/api";
+import Nexmo from "nexmo";
+import { Streamy } from "meteor/yuukan:streamy";
+
+const nexmo = new Nexmo({
+  apiKey: process.env.nApiKey,
+  apiSecret: process.env.nApiSecret
+});
 
 /**
  * Reaction Order Methods
@@ -92,6 +99,34 @@ Meteor.methods({
 
       const result = Meteor.call("workflow/pushItemWorkflow", "coreOrderItemWorkflow/packed", order, itemIds);
       if (result === 1) {
+        if (packed) {
+          // send notification that item has been packed and would be delivered shortly
+
+          // Email notification
+          const options = {
+            to: order.email,
+            from: "isildurandela@gmail.com",
+            subject: "Packed Order",
+            html: `<div><p>Hello,</p>
+            <p>Your order of ${order.items.length} item(s) of id ${order._id} has been packed and would be delivered to you shortly.</p>
+            <strong>
+            <p>Thanks for shopping with us!</p>
+            <p>Isildur Reaction Commerce</p>
+            </strong>
+            </div>
+            `
+          };
+          Reaction.Email.send(options);
+
+          // sms notification
+          textPayload = {
+            message: `Hi ${order.billing[0].address.fullName}. Your order of ${order.items.length} item(s) of id ${order._id} has been packed and would be delivered to you shortly. `,
+            number: order.billing[0].address.phone
+          };
+
+          Meteor.call("orders/sendText", textPayload);
+        }
+
         return Orders.update({
           "_id": order._id,
           "shipping._id": shipment._id
@@ -431,13 +466,53 @@ Meteor.methods({
     const tpl = `orders/${order.workflow.status}`;
     SSR.compileTemplate(tpl, Reaction.Email.getTemplate(tpl));
 
-    Reaction.Email.send({
-      to: order.email,
-      from: `${shop.name} <${shop.emails[0].address}>`,
-      subject: `Your order is confirmed`,
-      // subject: `Order update from ${shop.name}`,
-      html: SSR.render(tpl,  dataForOrderEmail)
-    });
+    // sms notification for new order
+    if (!order.shipping[0].tracking) {
+      Streamy.broadcast("new order");
+
+      // send mail notification to user of new order
+      Reaction.Email.send({
+        to: order.email,
+        from: `${shop.name} <${shop.emails[0].address}>`,
+        subject: "Your order is confirmed",
+        // subject: `Order update from ${shop.name}`,
+        html: SSR.render(tpl,  dataForOrderEmail)
+      });
+
+      // send Sms notification to user of new order
+      const textPayload = {
+        message: `Hi ${order.billing[0].address.fullName}. Your order of ${order.items.length} item(s) of id ${order._id} has successfully been placed. `,
+        number: order.billing[0].address.phone
+      };
+      Meteor.call("orders/sendText", textPayload);
+    }
+
+    if (order.shipping[0].tracking) {
+      // send notification that item has been delivered successfully
+
+      // Email notification
+      const options = {
+        to: order.email,
+        from: "isildurandela@gmail.com",
+        subject: "Delivered Order",
+        html: `<div><p>Hello,</p>
+        <p>Your order of ${order.items.length} item(s) of id ${order._id} has been delivered.</p>
+        <strong>
+        <p>Thanks for shopping with us!</p>
+        <p>Isildur Reaction Commerce</p>
+        </strong>
+        </div>
+        `
+      };
+      Reaction.Email.send(options);
+
+      // Sms notification
+      textPayload = {
+        message: `Hi ${order.billing[0].address.fullName}. Your order of ${order.items.length} item(s) of id ${order._id} has successfully been delivered. Thanks for shopping with us. `,
+        number: order.billing[0].address.phone
+      };
+      Meteor.call("orders/sendText", textPayload);
+    }
 
     return true;
   },
@@ -867,6 +942,7 @@ Meteor.methods({
     check(cancelComment, Match.Maybe(Object));
     // @todo if to check if the product is in shipping stage
     if (userType === "buyer") {
+      Streamy.broadcast("cancel order");
       return Orders.update(order._id, {
         $set: {
           "workflow.status": "canceled"
@@ -895,6 +971,14 @@ Meteor.methods({
         `
       };
       Reaction.Email.send(options);
+
+      // sms notification for order cancelled by admin
+      const textPayload = {
+        message: `Hi ${order.billing[0].address.fullName}. Your order of ${order.items.length} item(s) of id ${order._id} has been cancelled. Reason: ${cancelComment.body}. Thanks for shopping with us. `,
+        number: order.billing[0].address.phone
+      };
+
+      Meteor.call("orders/sendText", textPayload);
       return Orders.update(order._id, {
         $set: {
           "workflow.status": "canceled"
@@ -908,5 +992,21 @@ Meteor.methods({
       });
     }
     throw new Meteor.Error(402, "userType does not exist");
+  },
+
+  /**
+   * orders/sendText
+   * @summary notify the seller and user of an order via sms
+   * @param {object} payload order object
+   * @return {void}
+   */
+  "orders/sendText": (payload) => {
+    check(payload, Object);
+
+    const from = "REACTION";
+    const to = `234${payload.number.slice(1)}`;
+    const text = payload.message;
+
+    nexmo.message.sendSms(from, to, text);
   }
 });

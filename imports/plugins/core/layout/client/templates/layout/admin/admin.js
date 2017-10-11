@@ -5,6 +5,7 @@ import { Template } from "meteor/templating";
 import { Reaction, i18next, Router } from "/client/api";
 import { Packages } from "/lib/collections";
 import { FlatButton } from "/imports/plugins/core/ui/client/components";
+import { Streamy } from "meteor/yuukan:streamy";
 
 
 Template.coreAdminLayout.onRendered(function () {
@@ -73,6 +74,15 @@ Template.coreAdminLayout.helpers({
     if (props.type === "seperator") {
       return true;
     }
+
+    Streamy.on("cancel order", () => {
+      Alerts.toast("An order has been cancelled", "error");
+    });
+
+    Streamy.on("new order", () => {
+      Alerts.toast("A new order has been placed", "success");
+    });
+
     return false;
   },
 

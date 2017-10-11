@@ -108,3 +108,5 @@ richsilv:pikaday
 chart:chart
 mdg:geolocation
 jaymc:google-reverse-geocode
+yuukan:streamy
+pauldowman:dotenv
