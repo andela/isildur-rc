@@ -21,7 +21,6 @@ Meteor.methods({
   "shop/createShop": function (shopAdminUserId, userData, shopData) {
     check(shopAdminUserId, Match.Optional(String));
     check(shopData, Match.Optional(Schemas.Shop));
-    Logger.warn(userData);
     check(userData, Match.Optional(Object));
     let shop = {};
     // must have owner access to create new shops
@@ -49,20 +48,15 @@ Meteor.methods({
     shop._id = Random.id();
     if (userData.type === "vendorSignup") {
       shop.name = userData.shopName;
-      shop.emails.address = userData.email;
-      shop.emails.verified = false;
+      shop.emails[0].address = userData.email;
+      shop.emails[0].verified = false;
+      shop.addressBook[0].company = userData.shopName;
+      shop.addressBook[0].fullName = userData.username;
+      shop.addressBook[0].address1 = userData.shopAddress;
+      shop.addressBook[0].phone = userData.phone;
     } else {
       shop.name = shop.name + count;
     }
-
-    // if (userData.type === "vendorSignup") {
-    //   shop.name = userData.name;
-    //   shop.email = userData.email;
-    //   shop.addressBook.company = userData.shopName;
-    //   shop.addressBook.address1 = userData.shopAddress;
-    //   shop.addressBook.address2 = null;
-    //   shop.addressBook.phone = userData.phone;
-    // }
 
     check(shop, Schemas.Shop);
     try {
