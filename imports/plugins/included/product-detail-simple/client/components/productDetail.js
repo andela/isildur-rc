@@ -1,4 +1,7 @@
 import React, { Component, PropTypes } from "react";
+import ReactDOM from "react-dom";
+import { Template } from "meteor/templating";
+import { Blaze } from "meteor/blaze";
 import {
   Button,
   Currency,
@@ -16,6 +19,7 @@ import {
 } from "./";
 import { AlertContainer } from "/imports/plugins/core/ui/client/containers";
 import { PublishContainer } from "/imports/plugins/core/revisions";
+import "/imports/plugins/included/product-variant/client/templates/products/productDetail/relatedProducts.html";
 import firebase from "firebase";
 import config from "../firebase/config";
 firebase.initializeApp(config);
@@ -35,6 +39,9 @@ class ProductDetail extends Component {
   }
 
   componentDidMount() {
+        // Use Meteor Blaze to render related products
+    this.view = Blaze.render(Template.relatedProducts,
+          ReactDOM.findDOMNode(this.refs.tags));
     // check if product is digital or physical and render accordingly
     if (this.props.product.isDigital) {
       this.setState({
@@ -283,8 +290,14 @@ class ProductDetail extends Component {
                   onCartQuantityChange={this.props.onCartQuantityChange}
                   onClick={this.props.onAddToCart}
                 />
+
               </div>
             </div>
+              <hr />
+              <div className="text-centetr">
+                <h3> Related Products </h3>
+                <div ref="tags" />
+              </div>
           </div>
         </div>
       </div>
@@ -304,6 +317,7 @@ ProductDetail.propTypes = {
   onViewContextChange: PropTypes.func,
   priceRange: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   product: PropTypes.object,
+  relatedProducts: PropTypes.object,
   socialComponent: PropTypes.node,
   tags: PropTypes.arrayOf(PropTypes.object),
   topVariantComponent: PropTypes.node,

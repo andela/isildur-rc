@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import classnames from "classnames";
-import { Translation, TagList } from "/imports/plugins/core/ui/client/components/";
+import { Translation} from "/imports/plugins/core/ui/client/components/";
 import { TagListContainer, EditContainer } from "/imports/plugins/core/ui/client/containers";
 
 class ProductTags extends Component {
@@ -60,7 +60,9 @@ class ProductTags extends Component {
 ProductTags.propTypes = {
   editButton: PropTypes.node,
   editable: PropTypes.bool,
+  me: PropTypes.string,
   product: PropTypes.object,
+  relatedProducts: PropTypes.object,
   tags: PropTypes.arrayOf(PropTypes.object)
 };
 

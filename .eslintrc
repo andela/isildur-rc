@@ -10,6 +10,19 @@
      "sourceType": "module",
      "allowImportExportEverywhere": true
   },
+  "globals": {
+    "browser": true,
+    "it": true,
+    "beforeEach": true,
+    "$": true,
+    "Meteor": true,
+    "ReactiveVar": true,
+    "ITEMS_INCREMENT": true,
+    "Media": true,
+    "getTopVariants": true,
+    "tags": true,
+    "describe": true
+},
   "plugins": ["react"],
   "ecmaFeatures": {
     "arrowFunctions": true,

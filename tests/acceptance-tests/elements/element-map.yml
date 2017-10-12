@@ -103,3 +103,6 @@ input_description: "[class='{this.props.name}-edit-input']"
 select_product_type: "[class='form-control select-category']"
 select_digital: "[class='digital-category']"
 add_product_to_cart: "[class='input-group-addon add-to-cart-text js-add-to-cart']"
+
+# show related products
+click_on_product: "[href='/reaction/product/wpLjmxKBqEFrLZgEq']"

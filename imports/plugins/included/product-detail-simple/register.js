@@ -16,7 +16,14 @@ Reaction.registerPackage({
     route: "/product/:handle/:variantId?",
     container: "product",
     template: "ProductAdmin"
-  }],
+  }, {
+
+    route: "/product/:handle/:variantId?",
+    name: "tag",
+    template: "products",
+    workflow: "coreProductWorkflow"
+  }
+  ],
   layout: [{
     layout: "coreLayout",
     workflow: "coreProductWorkflow",

@@ -3,7 +3,8 @@ import { ReactiveDict } from "meteor/reactive-dict";
 import { $ } from "meteor/jquery";
 import { Reaction, i18next, Logger } from "/client/api";
 import { ReactionProduct } from "/lib/api";
-import { Tags } from "/lib/collections";
+import { applyProductRevision } from "/lib/api/products";
+import { Tags, Products } from "/lib/collections";
 import { Meteor } from "meteor/meteor";
 import { Session } from "meteor/session";
 import { Template } from "meteor/templating";
@@ -56,6 +57,28 @@ Template.productDetail.onCreated(function () {
   });
 });
 
+Template.relatedProducts.helpers({
+  products: function () {
+    return ReactionProduct.getProductsByTag(this.state.tags);
+  },
+  media: function () {
+    let defaultImage;
+    const variants = getTopVariants();
+    if (variants.length > 0) {
+      const variantId = variants[0]._id;
+      defaultImage = Media.findOne({
+        "metadata.variantId": variantId
+      }, {
+        sort: { "metadata.priority": 1, "uploadedAt": 1 }
+      });
+    }
+    if (defaultImage) {
+      return defaultImage;
+    }
+    return false;
+  }
+});
+
 /**
  * productDetail helpers
  * see helper/product.js for
@@ -71,11 +94,12 @@ Template.productDetail.helpers({
     const instance = Template.instance();
     const product = instance.state.get("product") || {};
     const tags = instance.state.get("tags");
+    const relatedProducts = instance.state.get("relatedProducts") || {};
     const productId = product._id;
     const canEdit = Reaction.hasPermission("createProduct");
-
     return {
       tags,
+      relatedProducts,
       isEditing: canEdit,
       controls: [
         {
@@ -190,14 +214,36 @@ Template.productDetail.helpers({
     const product = ReactionProduct.selectedProduct();
     if (product) {
       if (product.hashtags) {
-        return _.map(product.hashtags, function (id) {
+        const test =  _.map(product.hashtags, function (id) {
           return Tags.findOne(id);
         });
+        return test;
       }
     }
 
     return null;
   },
+
+  relatedProducts: function () {
+    return ReactionProduct.getProductsByTag(tags);
+  },
+  media: function () {
+    let defaultImage;
+    const variants = getTopVariants();
+    if (variants.length > 0) {
+      const variantId = variants[0]._id;
+      defaultImage = Media.findOne({
+        "metadata.variantId": variantId
+      }, {
+        sort: { "metadata.priority": 1, "uploadedAt": 1 }
+      });
+    }
+    if (defaultImage) {
+      return defaultImage;
+    }
+    return false;
+  },
+
   tagsComponent: function () {
     if (Reaction.hasPermission("createProduct")) {
       return Template.productTagInputForm;
@@ -620,5 +666,202 @@ Template.productDetailDashboardControls.events({
         });
       }
     }
+  }
+});
+
+function loadMoreProducts() {
+  let threshold;
+  const target = $("#productScrollLimitLoader");
+  let scrollContainer = $("#reactionAppContainer");
+
+  if (scrollContainer.length === 0) {
+    scrollContainer = $(window);
+  }
+
+  if (target.length) {
+    threshold = scrollContainer.scrollTop() + scrollContainer.height() - target.height();
+
+    if (target.offset().top < threshold) {
+      if (!target.data("visible")) {
+        target.data("productScrollLimit", true);
+        Session.set("productScrollLimit", Session.get("productScrollLimit") + ITEMS_INCREMENT || 24);
+      }
+    } else {
+      if (target.data("visible")) {
+        target.data("visible", false);
+      }
+    }
+  }
+}
+
+Template.relatedProducts.onCreated(function () {
+  let newTags;
+  this.products = ReactiveVar();
+  this.state = new ReactiveDict();
+  this.state.setDefault({
+    initialLoad: true,
+    slug: "",
+    canLoadMoreProducts: false,
+    product: {}
+  });
+  this.subscribe("Tags");
+  this.productId = () => Reaction.Router.getParam("handle");
+  this.variantId = () => Reaction.Router.getParam("variantId");
+  this.autorun(() => {
+    if (this.productId()) {
+      this.subscribe("Product", this.productId());
+    }
+  });
+
+  // Update product subscription
+  this.autorun(() => {
+    const slug = Reaction.Router.getParam("slug");
+
+
+    const product = ReactionProduct.setProduct(this.productId(), this.variantId());
+
+    if (Reaction.hasPermission("createProduct")) {
+      if (!Reaction.getActionView() && Reaction.isActionViewOpen() === true) {
+        Reaction.setActionView({
+          template: "productDetailForm",
+          data: product
+        });
+      }
+    }
+
+    // Get the product tags
+    if (product) {
+      if (_.isArray(product.hashtags)) {
+        const tags = _.map(product.hashtags, function (id) {
+          return Tags.findOne(id);
+        });
+        tags.forEach((tag) => {
+          newTags = tag;
+        });
+      }
+    }
+
+    const tag = Tags.findOne({ slug: newTags}) || Tags.findOne(newTags);
+    const scrollLimit = Session.get("productScrollLimit");
+    let tags = {}; // this could be shop default implementation needed
+
+    if (tag) {
+      tags = {tags: [tag._id]};
+    }
+
+    // if we get an invalid slug, don't return all products
+    if (!tag && slug) {
+      return;
+    }
+
+    if (this.state.equals("slug", slug) === false && this.state.equals("initialLoad", false)) {
+      this.state.set("initialLoad", true);
+    }
+
+    this.state.set("slug", slug);
+
+    const queryParams = Object.assign({}, tags, Reaction.Router.current().queryParams);
+    this.subscribe("Products", scrollLimit, queryParams);
+
+    // we are caching `currentTag` or if we are not inside tag route, we will
+    // use shop name as `base` name for `positions` object
+    const currentTag = newTags;
+    const productCursor = Products.find({
+      ancestors: [],
+      // keep this, as an example
+      // type: { $in: ["simple"] }
+      _id: {
+        $not: this.productId()
+      }
+    }, {
+      sort: {
+        [`positions.${currentTag}.position`]: 1,
+        [`positions.${currentTag}.createdAt`]: 1,
+        createdAt: 1
+      }
+    });
+
+    const products = productCursor.map((newProduct) => {
+      return applyProductRevision(newProduct);
+    });
+
+    this.state.set("canLoadMoreProducts", productCursor.count() >= Session.get("productScrollLimit"));
+    this.products.set(products);
+  });
+
+  this.autorun(() => {
+    const isActionViewOpen = Reaction.isActionViewOpen();
+    if (isActionViewOpen === false) {
+      Session.set("productGrid/selectedProducts", []);
+    }
+  });
+});
+
+Template.relatedProducts.onRendered(() => {
+  // run the above func every time the user scrolls
+  $("#reactionAppContainer").on("scroll", loadMoreProducts);
+  $(window).on("scroll", loadMoreProducts);
+});
+
+Template.relatedProducts.helpers({
+  tag: function () {
+    const id = Reaction.Router.getParam("_tag");
+    return {
+      tag: Tags.findOne({ slug: id }) || Tags.findOne(id)
+    };
+  },
+
+  products() {
+    return Template.instance().products.get();
+  },
+
+  loadMoreProducts() {
+    return Template.instance().state.equals("canLoadMoreProducts", true);
+  },
+
+  initialLoad() {
+    return Template.instance().state.set("initialLoad", true);
+  },
+
+  ready() {
+    const instance = Template.instance();
+    const isInitialLoad = instance.state.equals("initialLoad", true);
+    const isReady = instance.subscriptionsReady();
+
+    if (isInitialLoad === false) {
+      return true;
+    }
+
+    if (isReady) {
+      instance.state.set("initialLoad", false);
+      return true;
+    }
+
+    return false;
+  }
+});
+
+/**
+ * products events
+ */
+
+Template.relatedProducts.events({
+  "click #productListView": function () {
+    $(".product-grid").hide();
+    return $(".product-list").show();
+  },
+  "click #productGridView": function () {
+    $(".product-list").hide();
+    return $(".product-grid").show();
+  },
+  "click .product-list-item": function () {
+    // go to new product
+    Reaction.Router.go("product", {
+      handle: this._id
+    });
+  },
+  "click [data-event-action=loadMoreProducts]": (event) => {
+    event.preventDefault();
+    loadMoreProducts();
   }
 });
