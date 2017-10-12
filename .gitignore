@@ -1,6 +1,8 @@
 .DS_Store
 .fileStorage/
 .idea
+.env
+*.env
 *.csv
 *.dat
 *.gz
@@ -23,7 +25,6 @@ allure-results
 client/plugins.js
 server/plugins.js
 
-custom/client/*
 !custom/client/.gitkeep
 
 custom/server/*
@@ -35,7 +36,6 @@ public/custom/*
 private/custom/*
 !private/custom/.gitkeep
 
-!imports/plugins/custom/*
 !imports/plugins/custom/.gitkeep
 
 .reaction/config.json

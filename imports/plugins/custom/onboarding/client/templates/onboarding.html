@@ -1,0 +1,177 @@
+<template name="getStarted">
+  <style>
+    .tab-body{
+      margin-left: 50px;
+    }
+    .done{
+      margin-top: 50px;
+    }
+    .tab-main-body{
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+    .tabs-left {
+      border-bottom: none;
+      padding-top: 2px;
+    }
+    .tabs-left {
+      border-right: 1px solid #ddd;
+    }
+    .tabs-left>li {
+      float: none;
+      margin-bottom: 2px;
+    }
+    .tabs-left>li {
+      margin-right: -1px;
+    }
+    .tabs-left>li.active>a,
+    .tabs-left>li.active>a:hover,
+    .tabs-left>li.active>a:focus {
+      border-bottom-color: #ddd;
+      border-right-color: transparent;
+    }
+    .tabs-left>li>a {
+      border-radius: 4px 0 0 4px;
+      margin-right: 0;
+      display:block;
+    }
+  </style>
+  <div class="row tab-body" style="min-height:300px;">
+    <div  class="col-sm-12">
+      <h3>Getting Started with Reaction Commerce</h3>
+      <hr/>
+      <div class="col-xs-3">
+        <!-- required for floating -->
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs tabs-left">
+          <li id="intro-li" class="active"><a href="#introduction" data-toggle="tab">Introduction</a></li>
+          <li id="shop-li"><a href="#shop" data-toggle="tab">Add website details</a></li>
+          <li id="address-li"><a href="#address" data-toggle="tab">Add website addresses</a></li>
+          <li id="payment-li"><a href="#payment" data-toggle="tab">Set up payment method</a></li>
+          <li id="social-li"><a href="#social" data-toggle="tab">Set up social login</a></li>
+          <li id="email-li"><a href="#email" data-toggle="tab">Set up Email</a></li>
+          <li id="product-li"><a href="#product" data-toggle="tab">Add product</a></li>
+        </ul>
+      </div>
+      <div class="col-xs-9">
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane tab-main-body active" id="introduction">
+            <h2>Introduction</h2>
+            <p>This guide will show you how to get started with making the most out of reaction commerce.</p>
+            <p>This guide assumes you are an admin or a vendor (shop owner).</p>
+            <p class="done text-center"><a class="btn btn-success" id="intro-next">Get started</a></p>
+          </div>
+          <div class="tab-pane tab-main-body" id="shop">
+            <h2>Add website details</h2>
+            <p>This section will show you how to add your website details</p>
+            <p>Reaction Commerce makes it very easy for you to customize your website as you pleased.
+              You can add your website name, give it a description and also add keywords.
+              In other to customize your website , follow the procedure below :</p>
+            <ol>
+              <li>Click the Icon on the top-right corner of the page (dashboard icon) to open the dashboard page.</li>
+              <li>Click "Settings" on the core section of the admin panel from which a right navigation bar opens.</li>
+              <li>In the "general" section of the navigation bar, you can then add your website details.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-danger" id="shop-prev">Previous</a>
+              <a class="btn btn-success" id="shop-next">Next</a>
+            </p>
+          </div>
+          <div class="tab-pane tab-main-body" id="address">
+            <h2>Add website Addresses</h2>
+            <p>In this section, you will learn how to add your website addresses</p>
+            <p>For reliability, your customers should know where your website is operating from.
+              Hence Reaction Commerce provides you with two addresses (Shipping and Billing addresses).
+              You can follow the procedure below to add your billing and shipping addresses :</p>
+            <ol>
+              <li>Click the Icon on the top-right corner of the page (dashboard icon) to open the dashboard page.</li>
+              <li>Click "Settings" on the core section of the admin panel from which a right navigation bar opens.</li>
+              <li>In the "address" section of the navigation bar, you can start adding your billing and shipping addresses.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-danger" id="address-prev">Previous</a>
+              <a class="btn btn-success" id="address-next">Next</a>
+            </p>
+          </div>
+          <div class="tab-pane tab-main-body" id="payment">
+            <h2>Add Payment Method</h2>
+            <p>In this Section, you will learn how to add payment method to your website</p>
+            <p>
+              Your customers have to know what payment method you accept. Reaction Commerce provides
+              you with some of the most reliable, popular and common payment methods you can find today.
+              This includes Paystack, Paypal,Stripe, Braintree and Authorize.net. You can add any of these
+              payment methods using the following procedure :
+            </p>
+            <ol>
+              <li>Click the Icon on the top-right corner of the page (dashboard icon) to open the dashboard page.</li>
+              <li>Click "Settings" on the core section of the admin panel from which a right navigation bar opens.</li>
+              <li>In the "Payment methods" section of the navigation bar, you can choose any of the payment methods and
+                supply your credentials.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-danger" id="payment-prev">Previous</a>
+              <a class="btn btn-success" id="payment-next">Next</a>
+            </p>
+          </div>
+          <div class="tab-pane tab-main-body" id="social">
+            <h2>Add Social Login</h2>
+            <p>In this section, you will learn how to configure your website for social media login</p>
+            <p>
+              Reaction Commerce provides a way that enables your customers login to your application using
+              their social media websites. This includes Facebook, Google and Twitter. You can integrate these websites
+              using the procedure outlined below:
+            </p>
+            <ol>
+              <li>Click the Icon on the top-right corner of the page (dashboard icon) to open the dashboard page.</li>
+              <li>Click "Social" on the Connect section of the admin panel (Can be found at the bottom of the dashboard page)
+                from which a right navigation bar opens.</li>
+              <li>In the navigation bar, you can choose any of the social media (Facebook, Google, Twitter) you want
+                to integrate and supply your credentials accordingly.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-danger" id="social-prev">Previous</a>
+              <a class="btn btn-success" id="social-next">Next</a>
+            </p>
+          </div>
+          <div class="tab-pane tab-main-body" id="email">
+            <h2>Configure email for your Website</h2>
+            <p>In this step, you will learn how to configure your website for emailing</p>
+            <p>
+              Reaction Commerce provides options for you out of the box to enable emailing for your application.
+              We included several email providers that you can choose from or switch to any time.
+              Follow the procedure below to add any of these email service providers :
+            </p>
+            <ol>
+              <li>Click the Icon on the top-right corner of the page (dashboard icon) to open the dashboard page.</li>
+              <li>Click "Email" on the Core section of the admin panel from which a right navigation bar opens.</li>
+              <li>In the navigation bar, you can choose any of the email service providers
+                (Yahoo, Gmail, Nodemailer, Godaddy, Hotmail etc) you want and supply your credentials accordingly.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-danger" id="email-prev">Previous</a>
+              <a class="btn btn-success" id="email-next">Next</a>
+            </p>
+          </div>
+          <div class="tab-pane tab-main-body" id="product">
+            <h2>Add Product</h2>
+            <p>The sections above are all you need to start adding product to your website. For more customization of your website, visit your dashboard </p>
+            <p>
+              To add products to your website is very easy, follow the following procedure :
+            </p>
+            <ol>
+              <li>Click the "plus" Icon on the right side of any page you are.</li>
+              <li>Click the pop-up "Add product" button from which the add-product page loads.</li>
+              <li>In the page, you can fill all the required fields and have your product added for your customers to start making orders.</li>
+            </ol>
+            <p class="done text-center">
+              <a class="btn btn-success" id="product-next">Done</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</template>

@@ -21,13 +21,16 @@ if (process.env.NODE_ENV === "development") {
   BrowserPolicy.content.allowConnectOrigin("ws://localhost:*");
   BrowserPolicy.content.allowConnectOrigin("http://localhost:*");
   BrowserPolicy.content.allowConnectOrigin("https://localhost:*");
+  BrowserPolicy.content.allowInlineScripts();
   BrowserPolicy.framing.allowAll();
 }
 
+BrowserPolicy.content.allowInlineScripts();
 BrowserPolicy.content.allowOriginForAll("*.facebook.com");
 BrowserPolicy.content.allowOriginForAll("*.fbcdn.net");
 BrowserPolicy.content.allowOriginForAll("connect.facebook.net");
 BrowserPolicy.content.allowOriginForAll("*.googleusercontent.com");
+BrowserPolicy.content.allowOriginForAll("*.Driftt.com");
 
 BrowserPolicy.content.allowImageOrigin("fbcdn-profile-a.akamaihd.net");
 BrowserPolicy.content.allowImageOrigin("secure.gravatar.com");

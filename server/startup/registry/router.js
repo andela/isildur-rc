@@ -17,6 +17,11 @@ export default function () {
       icon: "fa fa-share-square-o",
       priority: 1,
       container: "utilities"
+    },
+    {
+      route: "/onboard",
+      template: "onboard",
+      name: "onboard"
     }]
   });
 }

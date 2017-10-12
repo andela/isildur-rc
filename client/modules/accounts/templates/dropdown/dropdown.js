@@ -79,3 +79,17 @@ Template.staticPagesDropdown.helpers({
     return StaticPages.find({shopId: Reaction.shopId}).fetch();
   }
 });
+
+Template.accountsDropdownApps.onRendered(function () {
+  if (Reaction.hasAdminAccess()) {
+    // Display onboarding
+    $("#onboarding").removeClass("onboarding");
+  }
+});
+
+Template.accountsDropdownApps.events({
+  "click #dropdown-apps-onboarding": function (event) {
+    event.preventDefault();
+    Reaction.Router.go("/reaction/get-started");
+  }
+});
