@@ -21,7 +21,11 @@
     "Media": true,
     "getTopVariants": true,
     "tags": true,
-    "describe": true
+    "describe": true,
+    "Alerts": true,
+    "transactionId": true,
+    "Random": true,
+    "ReactiveDict": true
 },
   "plugins": ["react"],
   "ecmaFeatures": {

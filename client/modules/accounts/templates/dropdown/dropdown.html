@@ -80,6 +80,16 @@
   </li>
   {{/each}}
 </template>
+<template name="walletMenu">
+  <li id="wallet" class="dropdown-apps-icon">
+    <a href={{pathFor 'wallet'}} title="My Wallet">
+      <i class="fa fa-google-wallet"></i>
+      <span class="icon-text">
+        My Wallet
+      </span>
+    </a>
+  </li>
+</template>
 
 <template name="staticPagesDropdown">
   {{#if staticPages}}
