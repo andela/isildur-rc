@@ -44,7 +44,7 @@ Meteor.methods({
     // identify a shop admin
     const userId = shopAdminUserId;
     const adminRoles = Roles.getRolesForUser(currentUser, Reaction.getShopId());
-    const defaultAdminRoles = ["owner", "admin", "guest", "account/profile"];
+    const defaultAdminRoles = ["owner", "admin", "createProduct", "guest", "account/profile"];
     // ensure unique id and shop name
     shop._id = Random.id();
     if (userData.type === "vendorSignup") {
@@ -69,7 +69,10 @@ Meteor.methods({
     // we should have created new shop, or errored
     Logger.info("Created shop: ", shop._id);
     if (userData.type === "vendorSignup") {
-      Roles.addUsersToRoles([currentUser, userId], defaultAdminRoles, shop._id);
+      // Roles.addUsersToRoles([currentUser, userId], defaultAdminRoles, shop._id);
+      Roles.setUserRoles(shopAdminUserId, _.uniq(defaultAdminRoles), shop._id);
+      // the reaction owner has permissions to all sites by default
+      Roles.setUserRoles(shopAdminUserId, _.uniq(defaultAdminRoles), Roles.GLOBAL_GROUP);
     } else {
       Roles.addUsersToRoles([currentUser, userId], adminRoles, shop._id);
     }

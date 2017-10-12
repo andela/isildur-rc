@@ -38,6 +38,7 @@
         </div>
         <div class="panel-body">
           {{#autoForm collection=Collections.Shops doc=shop id="shopEditForm" type="update"}}
+            {{shop.name}}
             {{> afQuickField name='name' placeholder="Shop Name"}}
             {{> afQuickField name='emails.0.address' label="Email" placeholder="Primary Contact Email"}}
             {{> afQuickField name='description' placeholder="Description"}}

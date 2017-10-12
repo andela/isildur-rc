@@ -65,7 +65,7 @@ Template.shopSettings.helpers({
       "metadata.type": "brandAsset"
     });
 
-    const shop = Shops.findOne({
+    const shop = Shops.find({
       "_id": Reaction.getShopId(),
       "brandAssets.type": "navbarBrandImage"
     });
@@ -123,7 +123,9 @@ Template.shopSettings.helpers({
   },
 
   shop: function () {
-    return Shops.findOne();
+    return Shops.findOne({
+      emails: { $elemMatch: { address: Meteor.user().emails[0].address } }
+    });
   },
   packageData: function () {
     return Packages.findOne({
