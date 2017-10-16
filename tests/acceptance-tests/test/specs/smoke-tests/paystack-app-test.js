@@ -9,7 +9,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Payment by Paystack", function () {
+xdescribe("Payment by Paystack", function () {
   it("should be available when a user decides to buy a product", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));

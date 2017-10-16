@@ -11,7 +11,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Digital product ", function () {
+xdescribe("Digital product ", function () {
   it("should have upload button", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));

@@ -103,3 +103,12 @@ input_description: "[class='{this.props.name}-edit-input']"
 select_product_type: "[class='form-control select-category']"
 select_digital: "[class='digital-category']"
 add_product_to_cart: "[class='input-group-addon add-to-cart-text js-add-to-cart']"
+
+# multi-vendor
+register_btn: ".form-group.flex.flex-justify-spaceBetween a:last-child"
+register_username_field: "input#username"
+register_shop_field: "input#shop-name"
+register_shop_add_field: "input#shop-address"
+register_phone_field: "input#phone-number"
+register_submit: "button.btn.btn-primary.btn-block"
+admin_bar: ".admin-controls-menu"
