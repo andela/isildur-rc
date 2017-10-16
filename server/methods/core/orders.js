@@ -101,18 +101,31 @@ Meteor.methods({
       if (result === 1) {
         if (packed) {
           // send notification that item has been packed and would be delivered shortly
-
           // Email notification
           const options = {
             to: order.email,
             from: "isildurandela@gmail.com",
             subject: "Packed Order",
-            html: `<div><p>Hello,</p>
-            <p>Your order of ${order.items.length} item(s) of id ${order._id} has been packed and would be delivered to you shortly.</p>
-            <strong>
-            <p>Thanks for shopping with us!</p>
-            <p>Isildur Reaction Commerce</p>
-            </strong>
+            html: `
+            <div style="border-top: 3px solid #0099cc; margin: 30px 0px 10px 0px; padding-top:10px"></div>
+            
+            <div style="width: 90%; margin: auto">
+              <div>
+                <img src="" alt="logo">
+              </div>
+              
+              <h2 style="color: #0099cc; border-bottom: 1px solid grey; padding-bottom: 1%;">Shipping status</h2>
+              <p>Hi,</p>
+              <p>Your order of <span style="font-weight: bold;">${order.items.length} item(s)</span> of <span
+              style="color: #0099cc; text-decoration: underline;"><span
+              style="font-weight: bold; text-decoration: none;">id:</span> ${order._id}</span> has been packed and would be delivered to you shortly.</p>
+              <p>Thank You for shopping with us.</p>
+              
+              <div style="border-top: 3px solid #0099cc; margin: 30px 0px 0px 0px; padding-top:10px"></div>
+              
+              <p style="font-size: 75%; font-weight: bold">&#169 2017 Reaction Commerce. All rights reserved</p>
+              <p style="font-size: 50%; font-weight: light">1119 Colorado Ave Ste. 7, Santa Monica, CA 90401</p>
+              
             </div>
             `
           };
@@ -495,12 +508,26 @@ Meteor.methods({
         to: order.email,
         from: "isildurandela@gmail.com",
         subject: "Delivered Order",
-        html: `<div><p>Hello,</p>
-        <p>Your order of ${order.items.length} item(s) of id ${order._id} has been delivered.</p>
-        <strong>
-        <p>Thanks for shopping with us!</p>
-        <p>Isildur Reaction Commerce</p>
-        </strong>
+        html: `
+        <div style="border-top: 3px solid #0099cc; margin: 30px 0px 10px 0px; padding-top:10px"></div>
+        
+        <div style="width: 90%; margin: auto">
+          <div>
+            <img src=${emailLogo} alt="logo">
+          </div>
+          
+          <h2 style="color: #0099cc; border-bottom: 1px solid grey; padding-bottom: 1%;">Delivered Order</h2>
+          <p>Hi,</p>
+          <p>Your order of <span style="font-weight: bold;">${order.items.length} item(s)</span> of <span
+          style="color: #0099cc; text-decoration: underline;"><span 
+          style="font-weight: bold; text-decoration: none;">id:</span> ${order._id}</span> has been delivered.</p>
+          <p>Thank You for shopping with us.</p>
+          
+          <div style="border-top: 3px solid #0099cc; margin: 30px 0px 0px 0px; padding-top:10px"></div>
+          
+          <p style="font-size: 75%; font-weight: bold">&#169 2017 Reaction Commerce. All rights reserved</p>
+          <p style="font-size: 50%; font-weight: light">1119 Colorado Ave Ste. 7, Santa Monica, CA 90401</p>
+          
         </div>
         `
       };
@@ -511,7 +538,7 @@ Meteor.methods({
         message: `Hi ${order.billing[0].address.fullName}. Your order of ${order.items.length} item(s) of id ${order._id} has successfully been delivered. Thanks for shopping with us. `,
         number: order.billing[0].address.phone
       };
-      Meteor.call("orders/sendText", textPayload);
+      // Meteor.call("orders/sendText", textPayload);
     }
 
     return true;
@@ -955,18 +982,37 @@ Meteor.methods({
       if (!Reaction.hasPermission("orders")) {
         throw new Meteor.Error(403, "Access Denied");
       }
+
+      // send notification
+
       const options = {
         to: order.email,
         from: "isildurandela@gmail.com",
         subject: "Canceled Order",
-        html: `<div><p>Hello,</p>
-        <p>Your order was canceled. Please find the details below</p>
-        <strong>
-        <p>Item Ordered: ${order.items[0].title}</p>
-        <p style="color: red;">Reason: ${cancelComment.body}</p>
-        <p>Thanks for shopping with us!</p>
-        <p>Isildur Reaction Commerce</p>
-        </strong>
+        html: `
+        <div style="border-top: 3px solid #0099cc; margin: 30px 0px 10px 0px; padding-top:10px"></div>
+        
+        <div style="width: 90%; margin: auto">
+          <div>
+            <img src="" alt="logo">
+          </div>
+          
+          <h2 style="color: #0099cc; border-bottom: 1px solid grey; padding-bottom: 1%;">Canceled Order</h2>
+          <p>Hi,</p>
+          <p>Your order of <span style="font-weight: bold;">
+          ${order.items.length} item(s)</span> of <span
+            style="color: #0099cc; text-decoration: underline;"><span
+            style="font-weight: bold; text-decoration: none;">id:</span> ${order._id}</span> was canceled. Please find the details below</p>
+          <strong>
+          <p>Item Ordered: ${order.items[0].title}</p>
+          <p style="color: red;">Reason: ${cancelComment.body}</p>
+          <p>Thank You for shopping with us.</p>
+          
+          <div style="border-top: 3px solid #0099cc; margin: 30px 0px 0px 0px; padding-top:10px"></div>
+          
+          <p style="font-size: 75%; font-weight: bold">&#169 2017 Reaction Commerce. All rights reserved</p>
+          <p style="font-size: 50%; font-weight: light">1119 Colorado Ave Ste. 7, Santa Monica, CA 90401</p>
+          
         </div>
         `
       };
