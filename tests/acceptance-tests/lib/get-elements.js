@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use strict";
 
 module.exports = {
@@ -14,5 +15,15 @@ module.exports = {
   },
   retId: function (element) {
     return this.getElementById(element).value;
+  },
+  customGetElementById: function (element) {
+    const grabElement = browser.execute(function (element) {
+      const elementStr = element;
+      return "#" + elementStr;
+    }, element);
+    return grabElement;
+  },
+  customRetId: function (element) {
+    return this.customGetElementById(element).value;
   }
 };

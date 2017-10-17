@@ -9,7 +9,7 @@ beforeEach(function () {
   browser.url(baseUrl);
 });
 
-describe("Payment by Paystack", function () {
+describe("Payment by Wallet", function () {
   it("should be available when a user decides to buy a product", function () {
     const eleMap = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-map.yml", "utf8"));
     const eleIds = yaml.safeLoad(fs.readFileSync("./tests/acceptance-tests/elements/element-ids.yml", "utf8"));
@@ -42,36 +42,16 @@ describe("Payment by Paystack", function () {
     browser.scroll(0, 400);
     browser.pause(3000);
     browser.click(eleMap.free_shipping);
+
     browser.waitForExist(".text-left");
     browser.click(".text-left");
     browser.pause(5000);
-    browser.waitForExist("//span[text()='Paystack']");
-    browser.click("//span[text()='Paystack']");
+    browser.waitForExist("//span[text()='Wallet']");
+    browser.click("//span[text()='Wallet']");
     browser.pause(5000);
     browser.scroll(0, 600);
-    // browser.execute(() => {
-    //   const drift = document.querySelector("button._2So8ItJQ9P6IqaCUlCO-2f.flex-center.DISMISS._3S6qOFxcrgO0yM2f9_l6JZ._364Vk0R65B1GXViJwyA9fM");
-    //   drift.click();
-    // });
-    browser.waitForExist("input[name='payerEmail']");
-    browser.setValue("input[name='payerEmail']", guestEmail);
-    browser.pause(5000);
-    browser.waitForExist("//form[@id='paystack-payment-form']/button");
-    browser.click("//form[@id='paystack-payment-form']/button");
-    browser.pause(5000);
-    const frameCount = browser.selectorExecuteAsync("//iframe", function (frames, message, callback) {
-      const paystackIframe = document.getElementsByTagName("iframe");
-      const IframeName = paystackIframe[0].name;
-      callback(IframeName);
-    }, " iframe on the page");
-    browser.pause(5000);
-    browser.frame(frameCount);
-    browser.pause(5000);
-    browser.setValue(getId.customRetId(eleIds.cardnumber_id), "4084 0840 8408 4081");
-    browser.setValue(getId.customRetId(eleIds.expire_id), "01 / 20");
-    browser.setValue(getId.customRetId(eleIds.cvv_id), "408");
-    browser.pause(5000);
-    browser.click("#pay-btn");
+    browser.waitForExist("#pay-with-wallet");
+    browser.click("#pay-with-wallet");
     browser.pause(10000);
     expect(browser.getAttribute("div", "order-item")).to.exist;
   });
