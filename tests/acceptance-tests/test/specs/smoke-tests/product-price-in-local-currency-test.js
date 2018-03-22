@@ -13,10 +13,8 @@ beforeEach(function () {
 describe("Display of Product prices", function () {
   it("should display product in users local currency", function () {
     browser.pause("10000");
-    // browser.waitForExist(".rui", "5000");
-    // browser.waitForExist("#product-title", "5000");
     browser.waitForExist(".currency-symbol", "10000");
     browser.pause("10000");
-    expect(browser.getText(".currency-symbol")).to.contain("₦4,624.44 - ₦7,116.44");
+    expect(browser.getText(".currency-symbol")).to.contain("₦4,637.43 - ₦7,136.43");
   });
 });
